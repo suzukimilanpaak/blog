@@ -1,0 +1,13 @@
+---
+layout: post
+title: TextMateでハイフンとアンダーラインを変更する
+date: '2012-05-22T14:50:00.000+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2012-05-28T08:52:48.324+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-5346108572038673050
+blogger_orig_url: http://engineerflies.blogspot.com/2012/05/textmate.html
+---
+
+Mac初心者の私ですが、会社でMacBook Proを与えられたのでちょっとずつ自分仕様にしていくつもりです。<br /><br />今日はTextmateでハイフンとアンダーラインを交換する方法です。今日の設定はCoccoaを使っているアプリに有効みたいだけど、TextMate、Emacsあたり意外でどのアプリに有効になるかは今のとこわからないです。<br /><br /><pre >$ vim ~/Library/KeyBindings/DefaultKeyBinding.dict<br />{<br />  /* "変更元" = ("命令", "値");  */<br />  "-" = ("insertText:", "_");<br />  "$_" = ("insertText:", "-");<br />  ";" = ("insertText:", ":");<br />  "$:" = ("insertText:", ";");<br />}<br /></pre><br />ちなみに英語ではハイフンはdash、アンダーラインはunderscoreと一般的に呼ばれています。<br /><br />参考:<br /><a href='http://blog.macromates.com/2005/key-bindings-for-switchers/'>http://blog.macromates.com/2005/key-bindings-for-switchers/</a><br /><br /><a href='http://xahlee.org/emacs/osx_keybinding_key_syntax.html'>http://xahlee.org/emacs/osx_keybinding_key_syntax.html</a><br /><br />どういうコマンドがあるかは<a href='http://www.hcs.harvard.edu/~jrus/Site/selectors.html'>ここ</a>を参考にしてください。

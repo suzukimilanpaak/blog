@@ -1,0 +1,13 @@
+---
+layout: post
+title: "複数のファイルを同時にhtml2hamlする"
+date: '2011-10-13T10:51:00.000+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2012-01-03T18:16:37.485Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-8751168576806856636
+blogger_orig_url: http://engineerflies.blogspot.com/2011/10/html2haml.html
+---
+
+複数のerbを同時にhamlに変換するbash scrpitです。<a href="http://snot2000.wordpress.com/2009/11/28/html2haml-for-multiple-files/">こちら</a>を引用して作りました。   htmls2hamlsというファイルを以下の内容で設けます。 <pre class='prettyprint'><br /><br /># Assume $1 is path to directory containing views in a rails project and $2 <br />: $1<br /><br />if test -d $1 <br />then echo 'processing..'<br />else echo Directory path must be specified for first argument; exit<br />fi<br /><br />for i in $1/*.html.erb<br />do html2haml $i > ${i%.erb}.haml<br />done<br /><br />rm $1/*.html.erb<br /><br />exit<br /><br /></pre>  以下のとおりに実行します。  <pre class='prettyprint'><br />cd RAILS_ROOT<br />htmls2hamls app/views/TARGETS<br /></pre>  <a href='https://gist.github.com/1283870' >gist </a>

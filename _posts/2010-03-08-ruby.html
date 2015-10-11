@@ -1,0 +1,13 @@
+---
+layout: post
+title: Ruby実効環境の簡単なまとめ
+date: '2010-03-08T22:15:00.004Z'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-03-08T22:28:58.723Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-5362473698718992277
+blogger_orig_url: http://engineerflies.blogspot.com/2010/03/ruby.html
+---
+
+自分用のメモです。<br /><br /><h1>apache + mod_proxy_balancer + mongrel cluster</h1><br />mongrelは初期状態では単一プロセスに単一のRubyインスタンスを持ってーつのポートを占有する。<br />mongrel clusterを使うことによって複数のプロセスを立ち上げることができる。プロセス数の分ポートを占有する。<br /><br />mod_proxy_balancerはapacheに対するアクセスをバランシングしてくれる。この場合、1つのポートに対するアクセスを複数のmongrel clusterのポートにバランシングしてくれる。<br /><br /><h1>nginx + unicorn</h1><br />nginx[エンジンエックス]は軽量な軽量高性能なWebサーバ/リバースプロキシ。リバースプロキシとしてapacheを立てるまでもない場合に使用すると便利。<br /><br />unicornはprefork型のweb server。Unicorn masterが起動するとまずプログラミングコードロードする。その後workerをforkする。workerがいくつあってもコードのロードは1回きりなので起動が早い。nginxからはunix socket通信で対話するいわばカーネルによるロードバランシング。<br /><br /><a href=http://route477.net/d/?date=20091110#f20091110-01-01>参照</a><br /><br /><h1>apache + passenger</h1><br />Apacheのprefork MPMとphusion passengerの組み合わせ。passengerはapacheの動的モジュールとして提供されており、スポーンサーバにアプリケーションのコピーを要求する。forkされたworker x複数 とspawner x複数がやりとりをする形。<br /><br /><a href=http://lab.koshigoe.jp/en2ja/passenger/Architectural%20overview.html>参照</a><br /><br />間違いがあったら教えてください。<br /><br />.

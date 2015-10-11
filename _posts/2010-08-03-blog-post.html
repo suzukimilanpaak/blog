@@ -1,0 +1,13 @@
+---
+layout: post
+title: "小ネタ：人工推移を出すときのロジック"
+date: '2010-08-02T19:39:00.000+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-08-02T19:39:40.549+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-3809617303152868850
+blogger_orig_url: http://engineerflies.blogspot.com/2010/08/blog-post.html
+---
+
+人工推移を出すときのロジックです。自分用のメモです。<br /><br /><pre>progress_population = [115, 120, 118, 127] => [0, 115, 120, 118, 127] => [0, 115, 120, 118]<br /><br />  [115, 120, 118, 127]<br />- [0, 115, 120, 118]<br /></pre><pre class=ruby name=code>progress_population = [115, 120, 118, 127]<br />unshifted_progress_population = progress_population.clone.unshift(0)<br />unshifted_progress_population.pop<br /><br />p progress_population.zip(unshifted_progress_population).map{|comparison| comparison[0].to_i - comparison[1].to_i}.flatten<br />=> [115, 5, -2, 9]<br /></pre><br />...もっといい書き方ないかな。

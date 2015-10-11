@@ -1,0 +1,12 @@
+---
+layout: post
+title: "引数の*"
+date: '2014-03-17T13:51:00.002Z'
+author: Suzuki MilanPaak
+tags: 
+modified_time: '2014-03-17T13:54:17.632Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-8628116420618177518
+blogger_orig_url: http://engineerflies.blogspot.com/2014/03/blog-post.html
+---
+
+<pre class='markdown'>引数の*がどういう役割をするのか時々分からなくなってしまうのでまとめてみた。<br /><br />- メソッド内の引数に付ける'*' => 複数の引数をまとめる<br />- メソッドに渡す引数に付ける'*' => 配列を展開して複数の引数として渡す<br /><br />```ruby<br />def caller(*args)<br />  squash(args)<br />end<br />def squash(args)<br />  puts args.inspect<br />end<br /> <br />caller(:index, :show)<br /># [:index, :show]<br />caller(:show)<br /># [:show]<br />caller(*[:show])<br /># [:show]<br />```<br /><br /></pre>

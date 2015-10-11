@@ -1,0 +1,13 @@
+---
+layout: post
+title: Ruby クラス変数、クラスインスタンス変数、インスタンス変数
+date: '2010-06-17T21:00:00.007+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-06-17T22:10:27.631+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-5400521506857945765
+blogger_orig_url: http://engineerflies.blogspot.com/2010/06/ruby.html
+---
+
+kabakiyoさんの記事<br />- <a href=http://d.hatena.ne.jp/kabakiyo/20080525/1211728832>クラス変数とクラスインスタンス変数とインスタンス変数の違いについて</a><br /><br />を読んで、クラスメソッドとインスタンスのメソッドを組み合わせたときクラス変数、クラスインスタンス変数、インスタンス変数が参照できるのかどうかよく理解してないことに気がついたのでサンプルを書いてみることにしました。<br /><br /><pre class=ruby name=code><br />class MyClass<br />  @@class_var = true<br />  @class_instance_var = true<br /><br />  def initialize<br />    @instance_var = true<br />  end<br /><br />  # Class Variableを取得<br />  def self.class_method<br />    return @@class_var, @class_instance_var, @instance_var<br />  end<br /><br />  # Instance Variableを取得<br />  def instance_method<br />    return @@class_var, @class_instance_var, @instance_var<br />  end<br />end<br /><br /># 派生クラス<br />class Derived < MyClass; end<br /><br /><br />p MyClass.class_method        # => [true, true, nil]<br />p Derived.class_method        # => [true, nil, nil]<br /><br />p MyClass.new.instance_method # => [true, nil, true]<br />p Derived.new.instance_method # => [true, nil, true]<br /></pre><br /><br />これを日本語でまとめると..<br /><br />- クラスインスタンス変数<br />　- 定義の仕方は@name_of_variable。インスタンス変数とは定義する場所が違う（クラスの中、メソッドの外）。<br />　- 継承先のクラスから参照できない<br />　- インスタンスから参照できない<br /><br />- クラス変数<br />　- <strong>常に参照できる</strong><br /><br />- インスタンス変数<br />　- インスタンスからのみ参照できる<br /><br /><br /><br />それでなんだか定義の記述が同じで場所が違うだけのクラスインスタンス変数とインスタンス変数の違いがなんだか分からなくなった。<br /><br /><pre class=ruby name=code><br />class MyClass<br />  @class_instance_var = 0<br /><br />  def initialize(fnum)<br />    @class_instance_var = fnum<br />  end<br /><br />  # Class Variableを取得<br />  def self.class_method<br />    @class_instance_var<br />  end<br /><br />  # Instance Variableを取得<br />  def instance_method<br />    @class_instance_var<br />  end<br />end<br /><br />m = MyClass.new 1<br />p m.instance_method # => 1<br /><br />d = Derived.new 2 <br />p d.instance_method # => 2<br />p m.instance_method # => 1<br /><br />p MyClass.class_method # => 0<br />p Derived.class_method # => nil<br /></pre><br /><br />- クラスインスタンス変数<br />　- インスタンスから参照した場合、インスタンス変数がそのインスタンスのスコープでクラスインスタンス変数を上書く<br />　- クラスメソッドから参照した場合、定義したクラスからのみ参照可能<br /><br /><br />というわけで、クラスインスタンス変数は継承されるときに継承先にコピーされないんだろうと理解したけど、このあたり本当のところご存知の方いらっしゃいます？<br /><br /><br />.

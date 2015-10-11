@@ -1,0 +1,13 @@
+---
+layout: post
+title: has_and_belongs_to_many associationで counter_cacheを有効にする
+date: '2014-01-01T04:21:00.001Z'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2014-01-01T04:21:23.470Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-7236712443752184579
+blogger_orig_url: http://engineerflies.blogspot.com/2014/01/hasandbelongstomany-association.html
+---
+
+has_and_belongs_to_many associationで counter_cacheを有効にするサンプル。<br /><br />以下は Category has_and_belongs_to_many Website な関係が成立しています。HABTMでcounter_cacheを実施するには has_and_belongs_to_manyに:after_add, :after_removeなどのオプションを渡してフックするメソッドをしてあげれば良いです。<br /><br />そうすることで website.categries = [category_foo, category_bar] としたときに以前のcategoriesとの差分についてcounter_cacheをincrement/decrementしてくれる。<br /><br />Website自身のフック :after_save, :after_create, :after_destroyは関連を更新したときにはトリガーされないです。<br /><br />*. #make!はmachinistからデータを作成しています<br /><script src="https://gist.github.com/suzukimilanpaak/8204980.js"></script><br />

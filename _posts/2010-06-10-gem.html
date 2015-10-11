@@ -1,0 +1,13 @@
+---
+layout: post
+title: Gemへパスが通らない！
+date: '2010-06-09T20:27:00.003+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-06-10T16:41:56.544+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-7186999610060618017
+blogger_orig_url: http://engineerflies.blogspot.com/2010/06/gem.html
+---
+
+レベル低くてすいません。Gemにパスが通らないって怒られる場合の原因と対処です。皆やらないと思うんだけど、僕はやる。<br /><br />1, rubygemのインストール時にsudo してない。<br /><pre class=prettyprint><br />$ gem install cassandra<br />WARNING:  Installing to ~/.gem since /opt/ruby-enterprise-1.8.7/lib/ruby/gems/1.8 and   /opt/ruby-enterprise-1.8.7/bin aren't both writable.<br /><br />$ gem list -ld cassandra<br /><br />*** LOCAL GEMS ***<br /><br />cassandra (0.8.2)<br />    Installed at: /home/suzukimilanpaak/.gem/ruby/1.8<br /></pre><br />これで、まれにrailsのrequireから参照が通らない場合があります。<br /><br /><br />- 対処<br />sudo する。<br /><br />2, rubygems試しに動かすためのサンプルファイル名に対象のrubygemと同じファイル名を使ってる。<br />　例、cassandra.rb<br /><pre class=ruby name=code><br />require 'rubygems'<br />require 'cassandra'<br />include Cassandra::Constants<br /><br />#=><br />$ ruby cassandra.rb <br />./cassandra.rb:3: uninitialized constant Cassandra (NameError)<br /> from /opt/ruby-enterprise-1.8.7/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'<br /> from /opt/ruby-enterprise-1.8.7/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `require'<br /> from cassandra.rb:2<br /><br /></pre><br />ruby コマンドがローカルのcassandra.rbを最初に見つけてしまっています。<br /><br /><br />- 対処<br /><br />ファイル名を変える<br />cassandra.rb => sample_cassandra.rb<br /><br /><br /><br />3, これらとは別に、rubygems内のコマンドがありパスが通っておらず実行できない場合があります。<br /><pre class=prettyprint><br />$ spork<br />No command 'spork' found,<br /> did you mean: Command 'spork' from package 'libspork-perl' (universe)<br />spork: command not found<br /><br />$ gem list -ld spork<br /><br />*** LOCAL GEMS ***<br /><br />spork (0.8.3)<br />    Installed at (0.8.3): /opt/ruby-enterprise-1.8.7/lib/ruby/gems/1.8<br /><br />$ echo $PATH<br />/home/suzukimilanpaak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:<br /></pre><br /><br /><br />- 対処<br />.profileか.bashrcにPATHを追加する。<br /><br />.profile ログイン時に一度設定すればいいもの<br />.bashrc bashを起動するたびに設定する必要のあるもの<br /><br /><pre class=prettyprint><br />#.profileを編集してパスを追加する<br /><br /># if running bash<br />if [ -n "$BASH_VERSION" ]; then<br />    #この行を追加<br />    PATH=$PATH:/opt/ruby-enterprise-1.8.7/bin:/home/suzukimilanpaak/.gem/ruby/1.8/bin:<br />    # include .bashrc if it exists<br />    if [ -f "$HOME/.bashrc" ]; then<br />        . "$HOME/.bashrc"<br />    fi<br />fi<br /><br />.profileを再読み込みして、sporkを実行（すると動くはず）。<br />$ source ~/.profile<br /><br />$ spork<br /></pre><br /><br />.

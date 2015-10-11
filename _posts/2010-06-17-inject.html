@@ -1,0 +1,13 @@
+---
+layout: post
+title: injectを実装してみた
+date: '2010-06-16T16:26:00.004+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-06-16T18:18:43.782+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-7057728967668304908
+blogger_orig_url: http://engineerflies.blogspot.com/2010/06/inject.html
+---
+
+Emunarableのinjectを自分で実装してみた。ほんとそれだけなんだけど、こういうことを何もみないでやってみてって言われるとパッと書けないんで練習。<br /><br />最初これでエラーになってました。<br /><pre class=ruby name=code><br />class Range  <br />  def my_inject(sum, &block)  <br />    self.collect{|v| sum = block(sum, v)}.last  <br />  end  <br />end  <br />  <br />p (1..3).inject(1){|sum, n| sum + n}  <br />p (1..3).my_inject(1){|sum, n| sum + n}  <br /></pre><br />3行目のblockでundefined methodが出ます。blockはProc型のインスタンスだからです。正しくは block.call(sum, v)。yieldでの呼び出しと時々ごっちゃになるんですよね。<br /><br />- yieldでの呼び出し<br /><pre class=ruby name=code><br />class Range  <br />  def my_inject(sum)  <br />    self.collect{|v| sum = yield(sum, v)}.last  <br />  end  <br />end<br /><br />p (1..3).inject(1){|sum, n| sum + n} #=> 7<br />p (1..3).my_inject(1){|sum, n| sum + n} #=> 7<br /></pre><br /><br />my_injectにyieldがない場合は単に無視され、my_injectの中が評価され返されます。<br /><br /><pre class=ruby name=code><br />class Range  <br />  def my_inject(sum)  <br />    1<br />  end  <br />end<br /><br />p (1..3).inject(1){|sum, n| sum + n} #=> 7<br />p (1..3).my_inject(1){|sum, n| sum + n} #=> 1<br /></pre><br /><br /><br />- 蛇足<br />これを書いていたときに(1..3)とするところを[1.3]としていてsum + nでエラーになってしまいました。[1..3]は配列の中にRange型のインスタンスが格納されているだけなので sum + nは 1 + 1..3となっていたんですね。<br /><br />()でrangeを囲む理由は単に1..3.inject(){}と書けないからだと思います。<br /><br />rubyでは読めるけど見ないで書けないと言う場面によく遭遇しますね。英語みたいですね。書くことは書くことでしか上達しないです。JavaやC#をやってたときは標準ライブラリのメソッド名が長すぎたりするのでeclipceのオートコンプリートに頼ったりAPIドキュメントを見たりしてあまり覚える必要性を感じませんでしたが、rubyの世界ではできるだけ何も見ないで直感的にコードを書ける能力がより重視されている気がします。

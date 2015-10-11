@@ -1,0 +1,12 @@
+---
+layout: post
+title: TextMateでパス指定でファイルを開く
+date: '2013-01-08T05:35:00.000Z'
+author: Suzuki MilanPaak
+tags: 
+modified_time: '2013-01-08T16:06:39.623Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-269805509768664483
+blogger_orig_url: http://engineerflies.blogspot.com/2013/01/textmate.html
+---
+
+<pre class='prettyprint' ># Create sym link to mate command<br />% ps aux|grep Mate<br />tatsuya-suzuki 36875   0.0  1.4   920560 121252   ??  R     2:07PM   0:13.67 /Applications/TextMate.app/Contents/MacOS/TextMate -psn_0_2155022<br /><br />% sudo ln -s /Applications/TextMate.app/Contents/Resources/mate /usr/bin/mate<br /><br /># Now you can open a file with the command<br />% mate config/database.yml<br /><br /></pre><br />mate commandの前にTextMateでプロジェクトを開いていれば一個のプロジェクトに全てのファイルがそれぞれのタブとして開かれます。そうでない場合は一個のファイルにつき一個のプロジェクトが立ち上がるので注意してください。<br /><br />参考：<br />http://superuser.com/questions/201251/how-to-add-textmate-to-my-path-on-mac<br />https://github.com/textmate/textmate/issues/327

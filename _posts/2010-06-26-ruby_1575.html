@@ -1,0 +1,13 @@
+---
+layout: post
+title: Ruby 正規表現入門ドリルの練習問題の解答
+date: '2010-06-25T16:31:00.001+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-06-25T16:54:24.009+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-2599722269079110967
+blogger_orig_url: http://engineerflies.blogspot.com/2010/06/ruby_1575.html
+---
+
+<a href=http://engineerflies.blogspot.com/2010/06/ruby_25.html#practical_exercises>前回の練習問題</a>の解答です。<br /><br />1. <br />d, m_s, y = m.values_at 1,2,3<br /><br />2. <br />>> dirs_files.collect{|v| v unless /(^\.\.)|(^\.)/.match(v) }.compact<br />=> ["app", "Capfile", "config", "coverage", "db", "doc", "features", "lib", "log", "public", "Rakefile", "README", "rerun.txt", "script", "spec", "tmp", "vendor"]<br /><br />3. <br />puts File.read(&quot;test.html&quot;).match(/&lt;title&gt;/).post_match.match(/&lt;\/title&gt;/).pre_match<br />puts File.read(&quot;test.html&quot;).match(/&lt;title&gt;(.+)&lt;\/title&gt;/m)[1]

@@ -1,0 +1,12 @@
+---
+layout: post
+title: "覚えているようで覚えられない5通りのActiveRecordの属性を変更する方法"
+date: '2013-01-08T07:44:00.000Z'
+author: Suzuki MilanPaak
+tags: 
+modified_time: '2013-01-08T07:53:10.171Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-7228019644124381756
+blogger_orig_url: http://engineerflies.blogspot.com/2013/01/5activerecord.html
+---
+
+メモ；<br /><br /><a href="http://www.davidverhasselt.com/2011/06/28/5-ways-to-set-attributes-in-activerecord/">5 Ways to set Attributes in ActiveRecord</a><br /><br /><br /><style type='text/css'>table, th, td {   border: 2px #793939 solid;   padding: 0px;   margin: 0px; } </style><br /><br /><h1 class="entry-title" style="background-color: white; border: 0px; clear: both; font-family: 'Helvetica Neue', Arial, Helvetica, 'Nimbus Sans L', sans-serif; font-size: 21px; line-height: 1.3em; margin: 0px; padding: 0px; vertical-align: baseline;">5 Ways to set Attributes in ActiveRecord</h1><br /><table><tbody><tr> <th>Method</th> <th>Uses Default Accessor</th> <th>Mass Assignment Protection</th> <th>Saved to Database</th> <th>Validations</th> </tr><tr> <td><a href="http://apidock.com/rails/ActiveRecord/AttributeMethods/Write/attribute%3D">attribute=</a></td> <td>Yes</td> <td>No</td> <td>No</td> <td><span style="color: silver;">n/a</span></td> </tr><tr> <td><a href="http://apidock.com/rails/ActiveRecord/AttributeMethods/Write/write_attribute">write_attribute</a></td> <td>No</td> <td>No</td> <td>No</td> <td><span style="color: silver;">n/a</span></td> </tr><tr> <td><a href="http://apidock.com/rails/ActiveRecord/Persistence/update_attribute">update_attribute</a></td> <td>Yes</td> <td>No</td> <td>Yes</td> <td>No</td> </tr><tr> <td><a href="http://apidock.com/rails/ActiveRecord/Base/attributes%3D">attributes=</a></td> <td>Yes</td> <td>Yes<sup><a class="footnote-link footnote-identifier-link" href="http://draft.blogger.com/blogger.g?blogID=6758697817819098194#footnote_0_362" id="identifier_0_362" title="Mass Assignment Protection for attributes= is overridable.">1</a></sup></td> <td>No</td> <td><span style="color: silver;">n/a</span></td> </tr><tr> <td><a href="http://apidock.com/rails/v3.0.0/ActiveRecord/Persistence/update_attributes">update_attributes</a></td> <td>Yes</td> <td>Yes</td> <td>Yes</td> <td>Yes</td> </tr></tbody> </table>

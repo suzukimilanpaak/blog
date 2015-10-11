@@ -1,0 +1,13 @@
+---
+layout: post
+title: "ひとりごと on RSpec"
+date: '2012-06-15T10:06:00.002+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2012-06-15T10:07:53.182+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-2190232452706505948
+blogger_orig_url: http://engineerflies.blogspot.com/2012/06/on-rspec.html
+---
+
+ああ　かれこれ１時間くらい CapybaraのRSpec上でActioveRecord::Baseなクラスの値がchangeしないパターンにはまってた。<br /><br />こんな場合；<br />ユーザのパスワードリセッタを実装するときにone_time_tokenを発行してメールを送信する。メール中のtokenとデータベイスに保存されたtokenが一緒かチェック。同じだったら、パスワードを再設定する画面に進む。他にもセキュリティを守るための処理はあるけど基本的な処理はそんなかんじ。<br /><br />Specはこんな感じ<br /><pre name='code' class='ruby'>let(:user) { User.make } # => machinist/acive_record<br /><br /> it "user's token should be updated" do<br />  expect{ click_button 'メール送信' }.to change{ user.one_time_token }<br />end<br /><br />expect{ click_button 'メール送信'; user.reload }.to change{ user.one_time_token }<br /># => Got: one_time_token is still ""<br /></pre><br /><br />正しくはuser.reloadを追加しないといけない。<br /><pre name='code' class='ruby'>it "user's token should be updated" do<br />  expect{ click_button 'メール送信'; user.reload }.to change{ user.one_time_token }<br />end<br /></pre><br />changeの中は遅延評価されたuser を参照しているからRSpecの空間で故意にreloadしないと one_time_tokenがActiveRecord上では変わらない。普通の人はすぐ気づくのかなあ？

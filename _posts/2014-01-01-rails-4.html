@@ -1,0 +1,13 @@
+---
+layout: post
+title: Rails 4　エラーメッセージを完全に上書きする
+date: '2014-01-01T01:29:00.001Z'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2014-01-01T04:21:43.530Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-5494054488261392409
+blogger_orig_url: http://engineerflies.blogspot.com/2014/01/rails-4.html
+---
+
+メッセージを上書きしたいときはオプションで presence: { message: 'Select at least one category' } の様にメッセージを渡してあげれば良いです。<br />だけど、それだと主語が先頭に来てしまい"Category Select at least one category"というエラーメッセージになってしまう。<br /><br />全てのメッセージを上書きしたいときはlambdaを渡してあげればよい。<br /><br /><pre class='ruby' name='code'>validates :categories, presence: { message: -> {|location, error| raise [location, error].inspect }  }<br /><br /># => [:"activerecord.errors.models.website.attributes.categories.blank", {:model=>"Website", :attribute=>"Categories", :value=>#＜ActiveRecord::Associations::CollectionProxy []> }]<br /><br /></pre><br />

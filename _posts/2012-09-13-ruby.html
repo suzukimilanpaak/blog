@@ -1,0 +1,13 @@
+---
+layout: post
+title: Rubyでインスタンスの属性にクラス内からメソッドを追加する
+date: '2012-09-12T16:45:00.002+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2012-09-12T16:53:02.932+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-5239173979222159421
+blogger_orig_url: http://engineerflies.blogspot.com/2012/09/ruby.html
+---
+
+Stackoverflowで`Rubyでインスタンスの属性にメソッドを追加する`方法を聞いたら、ボヘミアの田舎町から<a href="http://stackoverflow.com/questions/12383679/adding-a-method-to-an-attribute-in-ruby">解答が付いた</a>！<br /><br />題名が何いってるかわからんかもしれないのでどういうことか説明します。<br />ちょいちょいActiveRecord::Baseのattributeだけにメソッドを足してこういう風に書きたいことがあった。 <br /><pre class='ruby' name='code'>html_snippet = HtmlSnippet.find(1)<br />html_snippet.content = "Link to http://stackoverflow.com"<br />html_snippet.content.replace_url_to_anchor_tag!<br /># => "Link to <a href='http://stackoverflow.com'>http://stackoverflow.com</a>"<br /></pre><br />これを実現するのにそのクラス定義内にcontentにreplace_url_to_anchor_tag!を追加するメソッドを定義したかった。<br /><br />ActiveRecordのクラスはこんなかんじ<br /><pre class='ruby' name='code'># app/models/html_snippet.rb<br />class HtmlSnippet < ActiveRecord::Base    <br />  # I expected this bit to do what I want but not<br />  class << @content<br />    def replace_url_to_anchor_tag!<br />      matching = self.match(/(https?:\/\/[\S]+)/)<br />      "<a href='#{matching[0]}'/>#{matching[0]}</a>"<br />    end<br />  end<br />end<br /></pre><br />↑あきらかにClass classの@content(常にnil)にメソッドを定義してるため動かない。<br /><br />1つの解；<br />頂いた回答によると、インスタンスメソッドの中で変数にメソッドを追加すればいい。ここでいうと`decorate_it`<br /><pre class='ruby' name='code'>class HtmlSnippet < ActiveRecord::Base<br /><br />  # getter is overrided to extend behaviour of freshly loaded values<br />  def content<br />    value = read_attribute(:content)<br />    decorate_it(value) unless value.respond_to?(:replace_url_to_anchor_tag)<br />    value<br />  end<br /><br />  def content=(value)<br />    dup_value = value.dup<br />    decorate_it(dup_value)<br />    write_attribute(:content, dup_value)<br />  end<br /><br />  private<br />  def decorate_it(value)<br />    class << value<br />      def replace_url_to_anchor_tag<br />        # ...<br />      end<br />    end<br />  end<br />end<br /></pre><br />なんかやりたいことに対してコーディング量がtoo muchじゃないかなとか思うんだけど、万が一もっと簡潔な方法があったら教えてください。<br />

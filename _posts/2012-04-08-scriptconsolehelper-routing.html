@@ -1,0 +1,13 @@
+---
+layout: post
+title: script/consoleでhelper, routing
+date: '2012-04-08T04:45:00.000+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2012-04-09T07:35:34.482+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-8298324680507938005
+blogger_orig_url: http://engineerflies.blogspot.com/2010/08/scriptconsolehelper-routing.html
+---
+
+- 下記に追記<br />いつのバージョンからか(少なくとも2.3.14からは)名前付きルートはscript/consoleを立ち上げた時点でlink_to はhelperというActionView::Baseのインスタンスからアクセスできて、ダイナミックルートはappというActionController::Integration::Sessionのインスタンスからアクセスできるようになっていました。<br /><br /><a href="http://blog.p.latyp.us/2008/03/calling-helpers-in-rails-console.html">http://blog.p.latyp.us/2008/03/calling-helpers-in-rails-console.html</a><br /><br /><br />--------------------------------<br />- コンソールで名前付きルート<br /><a href="http://stuartsierra.com/2008/01/08/testing-named-routes-in-the-rails-console">Testing Named Routes in the Rails Console</a>からまんま拝借。<br /><br /><pre class="ruby" name="code">include ActionController::UrlWriter <br />default_url_options[:host] = 'whatever'</pre><br /><br />default_url_optionsは名前のとおり、/parent_controller/:host/child_controller/:idといった定義に対して以下の用にコンソールで名前付きパスのデフォルトのオプションを指定してくれる。<br />action_controller_path(:id =&gt; 23)<br />=&gt; "/parent_controller/watever/child_controller/23"<br />belong_toなんかでリソースがネストしてる時に便利。<br /><br />rs = ActionController::Routing::Routes<br />rs.recognize_path action_controller_path(:id =&gt; 23), :method =&gt; 'GET'<br />とかで、params =&gt; {:host =&gt; 'whatever', :id =&gt; '23'}とかがパラメータとして渡ってくるはず。試してない。<br /><br /><br />- Helperをコンソールで<br /><pre class="ruby" name="code">  include HelperYouWantToRun #使いたいhelperをincludeする。<br />  helper.method_you_want_to_run</pre>

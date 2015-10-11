@@ -1,0 +1,13 @@
+---
+layout: post
+title: empty?  nil? blank?とtrue false
+date: '2010-06-18T00:37:00.002+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-06-18T00:50:45.763+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-7657702773564452435
+blogger_orig_url: http://engineerflies.blogspot.com/2010/06/empty-nil-blanktrue-false.html
+---
+
+Railsをやってると誰しもがありがたいと思うblank?。<br />- 他のempty?とnil?との使い分けは？<br />- ときどき、true, falseの条件とごっちゃになるし整理してみよう<br /><br /><br /><h2>empty? nil? blank?の違い</h2><br /><pre class=ruby name=code><br /># blank?はActivesupportのObjectクラスのメソッド<br /># p "".blank?   #=> undefined method `blank?' for "":String<br /><br />require 'rubygems'<br />require 'active_support'<br /><br />p ["", [], {}, nil, 0].collect{|v| v.nil?} #=>[false, false, false, true, false]<br /><br />p ["", [], {}, "\n", "\t"].collect{|v| v.empty?} #=>[true, true, true, false, false]<br /># p 0.empty?    #=> undefined method `empty?' for 0:Fixnum<br /># p nil.empty?  #=> undefined method `empty?' for nil:NilClassp <br /><br />["", [], {}, nil, 0, "\n", "\t"].collect{|v| v.blank?} #=>[true, true, true, true, false, true, true]<br /></pre><br /><br />- nil?<br />　nilを判定するのにしか使えません<br /><br />- empty?<br />　変数の初期値を判定するのに使える様です。"", [], {}はそれぞれString.new, Array.new, Hash.newと同じ値になります。Fixnum, NilClassにはnew methodはありません。<br /><br />- blank?<br />　nilかempty?である場合を判定する場合に使えそうです。試してみた感じFixnumは常にfalseの様です。<br />blank?の定義って<br /><pre class=ruby name=code><br />def blank?<br /> self.nil? or self.empty?<br />end<br /></pre>かと思ってましたが、そういうわけでもないんですね。<br /><br /><br />実際のところはこんな感じ<br /><pre class=ruby name=code><br /># File activesupport/lib/active_support/core_ext/object/blank.rb, line 12<br />  def blank?<br />    respond_to?(:empty?) ? empty? : !self<br />  end<br /></pre>respond_to?はRubyのObjectクラスのメソッドで、<a href=http://apidock.com/ruby/Object/respond_to%3F>引数に取ったメソッドが応答するかどうか調べてくれる</a>らしい。（ってつまりメソッドの存在チェック。）<br /><br /><br />例えば、<br /><pre class=ruby name=code><br />[].instance_eval{ respond_to?(:blank?) } #=> false<br />[].blank? #=> undefined method `blank?' for []:Array<br /></pre><br />って余計に説明わかりづらくした。すいません。<br /><br /><br />話を戻すと、blank?はempty?がある場合はそれを使って判定。そうじゃない場合はRubyの標準の判定の逆を返す。（ここの仕組みが僕はよく分かっていません。例えば if instance_of_objectとしたときどこで判定されるのか見つけられない。きっとライブラリでなく構文解析をやってるところに書いてあるかな）<br />respond_to?(:empty?) ? empty? : !self<br /><br /><br /><br /><br /><h2>何がTrue, Falseと判定されるか？</h2><br />さてTrue, Flseの方はと言いますと、<br /><pre class=ruby name=code><br />>> ["", [], {}, nil, 0, "\n", "\t"].collect{|v| if v then true; else false; end}<br />=> [true, true, true, false, true, true, true]<br /></pre><br /><strong>nil</strong>だけがfalseと判定されます。<br /><br />.

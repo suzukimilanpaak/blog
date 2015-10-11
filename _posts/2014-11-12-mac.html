@@ -1,0 +1,14 @@
+---
+layout: post
+title: Macのキーリマッピング
+date: '2014-11-12T06:22:00.002Z'
+author: Suzuki MilanPaak
+tags:
+- Mac
+modified_time: '2014-11-12T06:24:06.294Z'
+thumbnail: https://2.bp.blogspot.com/-l5EAhrCfI3Q/VGL832bEw9I/AAAAAAAAAng/NOB1a4vWIyg/s72-c/20141112152112_397a8f005d9464ae0046b7fa401403a069ffe930.png
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-1066438973626751229
+blogger_orig_url: http://engineerflies.blogspot.com/2014/11/mac.html
+---
+
+Macのキーリマッピングを再考しました。Rubyをよく書くことが多いので以下のセッティングが個人的に一番楽<br /><br />- `:`と`;`はシステムワイドでいつもスワップされる<br />- `-`と`_`はvimを使っているときだけスワップされる（日本語を書くときやコマンドラインでは`-`を多用するから）<br /><br />つまり<br /><br />1.&nbsp;&nbsp;`:` &lt;=&gt; `;`はKarabinerで設定する<br />2. `-` &lt;=&gt; `_`は.vimrcで設定する<br /><br /><br />## 1. `:` &lt;=&gt; `;`はKarabinerで設定する<br /><br />- [Karabiner](https://pqrs.org/osx/karabiner/)をインストールする<br />- Change Key tabを開く<br />- 検索フィールドにsemicolonと入力する<br />- Swap Semicolon and Minusにチェックする<br /><div class="separator" style="clear: both; text-align: center;"><a href="https://2.bp.blogspot.com/-l5EAhrCfI3Q/VGL832bEw9I/AAAAAAAAAng/NOB1a4vWIyg/s1600/20141112152112_397a8f005d9464ae0046b7fa401403a069ffe930.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="306" src="https://2.bp.blogspot.com/-l5EAhrCfI3Q/VGL832bEw9I/AAAAAAAAAng/NOB1a4vWIyg/s320/20141112152112_397a8f005d9464ae0046b7fa401403a069ffe930.png" width="320" /></a></div><br /><br /><br />## 2. `-` &lt;=&gt; `_`は.vimrcで設定する<br />- .vimrcに以下を追記する<br />noremap - _<br />noremap! - _<br />noremap _ -<br />noremap! _ -<br /><br /><br /><br />
