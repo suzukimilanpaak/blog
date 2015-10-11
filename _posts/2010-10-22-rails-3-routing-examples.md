@@ -1,0 +1,15 @@
+---
+layout: post
+title: 'Rails 3: Routing Examples'
+date: '2010-10-22T11:09:00.000+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2012-01-03T18:17:04.283Z'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-1414843303742101874
+blogger_orig_url: http://engineerflies.blogspot.com/2010/10/rails-3-routing-examples.html
+---
+
+Rails3のルーティングがよくまとまってるところを見つけたのでノートします。  
+ [Rails 3: Routing Examples](http://markconnell.co.uk/posts/2010/02/rails-3-routing-examples)
+

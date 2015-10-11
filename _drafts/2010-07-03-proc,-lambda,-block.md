@@ -1,0 +1,18 @@
+---
+layout: post
+title: Proc, lambda, block
+date: '2010-07-02T16:59:00.001+01:00'
+author: Suzuki MilanPaak
+tags:
+- Ruby/ Ruby on Rails
+modified_time: '2010-07-02T16:59:22.869+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-5940472393559037769
+---
+
+- Proc, lambda, block  
+ - blockとProcの違い  
+ blockは保存できない。  
+ - Procは配置された場所で手続きとして振る舞う。=> returnが定義されていた場合、後続の処理は実行されない。  
+ - lambdaは配置された場所で関数として振る舞う。=> returnが定義されていた場合、その値を返し後続の処理を実行する。  
+ - lambdaは引数の数をチェックする
+

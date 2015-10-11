@@ -1,0 +1,12 @@
+---
+layout: post
+title: When mysql went slow
+date: '2011-04-01T13:34:00.001+01:00'
+author: Suzuki MilanPaak
+tags:
+- MySQL
+modified_time: '2011-04-08T18:06:50.969+01:00'
+blogger_id: tag:blogger.com,1999:blog-6758697817819098194.post-8252787025108915124
+---
+
+- SHOW PROCESSLIST;<br />shows all processes stocking.<br /><br />- SHOW VARIABLES LIKE 'tx_isolation';<br />shows isolation level of database;<br /><br />- SHOW CREATE TABLE table_name;<br />shows create table definition for a table;<br /><br />- slow log <br />is normally in /var/log/mysql/mysql-slow.log in Ubntu server<br /><br />- There is seemingly no way to refer isolation level for a query<br />http://stackoverflow.com/questions/5347567/view-isolation-level-for-a-query-in-mysql<br /><br />- mysqlcheck http://linuxcommand.org/man_pages/mysqlcheck1.html<br />does  CHECK TABLE, REPAIR TABLE, ANALYZE, TABLE, and OPTIMIZE TABLE
